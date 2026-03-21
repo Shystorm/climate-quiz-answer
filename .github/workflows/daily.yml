@@ -2,9 +2,8 @@ name: Daily Quiz Update
 
 on:
   schedule:
-    # 매일 한국 시간 00:05 실행 (UTC 15:05)
     - cron: '5 15 * * *'
-  workflow_dispatch: # 수동 실행 버튼 (테스트용)
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # v3에서 v4로 업데이트 (경고 해결)
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # v4에서 v5로 업데이트 (경고 해결)
         with:
           python-version: '3.9'
 
@@ -31,6 +30,13 @@ jobs:
         run: |
           git config --global user.name "Auto-Bot"
           git config --global user.email "bot@noreply.github.com"
-          git add index.html
-          git commit -m "Update quiz for $(date +'%Y-%m-%d')" || exit 0
-          git push
+          
+          # index.html 파일이 정상적으로 생성되었는지 확인 후 진행
+          if [ -f "index.html" ]; then
+            git add index.html
+            git commit -m "Update quiz for $(date +'%Y-%m-%d')" || exit 0
+            git push
+          else
+            echo "🚨 index.html 파일이 없습니다! 파이썬 스크립트에서 데이터를 가져오지 못했습니다."
+            exit 1
+          fi
