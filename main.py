@@ -49,9 +49,12 @@ def generate_html(quiz_data):
     <html lang="ko">
     <head>
         <meta charset="UTF-8">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8376160575017122"
-     crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8376160575017122"
+             crossorigin="anonymous"></script>
+        <meta name="google-adsense-account" content="ca-pub-8376160575017122">
+        
         <title>{today_date} 퀴즈 정답</title>
         <style>
             /* 기본 설정 */
