@@ -59,8 +59,8 @@ def generate_html(quiz_data):
         <!-- OG 태그 추가 -->
         <meta property="og:title" content="{today_date} 퀴즈 정답" />
         <meta property="og:description" content="오늘의 기후 퀴즈 정답을 확인해보세요!" />
-        <meta property="og:image" content="http://dailywisdom.kr/og_image_quiz_dailywisdom.png" />
-        <meta property="og:url" content="http://dailywisdom.kr" />
+        <meta property="og:image" content="https://dailywisdom.kr/og_image_quiz_dailywisdom.png" />
+        <meta property="og:url" content="https://dailywisdom.kr" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Daily Wisdom" />
         <style>
