@@ -10,7 +10,7 @@ HEADERS = {
     "Accept": "application/json",
     "User-Agent": "ghg-ios/1.5.1 (iPhone12,8; iOS 26.2; 2026-01-22 00:56:13)",
 }
-DATA = {}
+DATA = {"memInfoId": 832149}
 
 def fetch_quiz():
     try:
@@ -20,17 +20,6 @@ def fetch_quiz():
         return response.json().get('resultData')
     except Exception as e:
         print(f"Error fetching quiz: {e}")
-        return None
-        
-def fetch_quiz():
-    try:
-        response = requests.post(API_URL, headers=HEADERS, json=DATA, timeout=15)
-        print(f"Status Code: {response.status_code}") # 상태 코드 출력
-        print(f"Response Body: {response.text}")      # 응답 내용 출력
-        response.raise_for_status()
-        return response.json().get('resultData')
-    except Exception as e:
-        print(f"🚨 상세 에러 발생: {e}")
         return None
 
 def generate_html(quiz_data):
