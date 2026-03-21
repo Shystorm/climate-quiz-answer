@@ -136,7 +136,7 @@ def generate_html(quiz_data):
                 margin-right: 5px;
             }}
             .question-text {{
-                font-size: 1.3rem; /* 어르신들을 위해 폰트 키움 */
+                font-size: 1.3rem; /* 폰트 키움 */
                 line-height: 1.6;
                 color: #333;
                 font-weight: 600;
@@ -201,7 +201,7 @@ def generate_html(quiz_data):
             </div>
 
             <details>
-                <summary>💡 정답 해설 보기 (터치)</summary>
+                <summary>💡 정답 해설 보기 </summary>
                 <div class="desc-content">
                     {quiz_data['desc']}
                 </div>
