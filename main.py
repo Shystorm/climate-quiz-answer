@@ -7,7 +7,7 @@ API_URL = "https://appapi.ggaction.or.kr/api/v1/app/activity/quiz-question"
 HEADERS = {
     "Host": "appapi.ggaction.or.kr",
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
     "User-Agent": "ghg-ios/1.5.1 (iPhone12,8; iOS 26.2; 2026-01-22 00:56:13)",
 }
 DATA = {}
