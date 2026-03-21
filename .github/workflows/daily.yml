@@ -1,37 +1,30 @@
 name: Daily Quiz Update
-
 on:
   schedule:
     - cron: '5 15 * * *'
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4 # v3에서 v4로 업데이트 (경고 해결)
-
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v5 # v4에서 v5로 업데이트 (경고 해결)
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-
       - name: Install Dependencies
         run: pip install requests
-
       - name: Run Script to Generate HTML
+        env:
+          MEM_INFO_ID: ${{ secrets.MEM_INFO_ID }}
         run: python main.py
-
       - name: Commit and Push
         run: |
           git config --global user.name "Auto-Bot"
           git config --global user.email "bot@noreply.github.com"
-          
-          # index.html 파일이 정상적으로 생성되었는지 확인 후 진행
           if [ -f "index.html" ]; then
             git add index.html
             git commit -m "Update quiz for $(date +'%Y-%m-%d')" || exit 0
