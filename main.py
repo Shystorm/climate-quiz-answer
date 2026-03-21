@@ -10,8 +10,6 @@ HEADERS = {
     "Accept": "application/json"
     "User-Agent": "ghg-ios/1.5.1 (iPhone12,8; iOS 26.2; 2026-01-22 00:56:13)",
 }
-# memInfoId는 본인 ID 그대로 사용 (문제 조회용이라 안전)
-# DATA = {"memInfoId": 831849}
 DATA = {}
 
 def fetch_quiz():
