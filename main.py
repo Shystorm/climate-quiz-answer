@@ -21,6 +21,17 @@ def fetch_quiz():
     except Exception as e:
         print(f"Error fetching quiz: {e}")
         return None
+        
+def fetch_quiz():
+    try:
+        response = requests.post(API_URL, headers=HEADERS, json=DATA, timeout=15)
+        print(f"Status Code: {response.status_code}") # 상태 코드 출력
+        print(f"Response Body: {response.text}")      # 응답 내용 출력
+        response.raise_for_status()
+        return response.json().get('resultData')
+    except Exception as e:
+        print(f"🚨 상세 에러 발생: {e}")
+        return None
 
 def generate_html(quiz_data):
     today_date = datetime.datetime.now().strftime("%Y년 %m월 %d일")
