@@ -40,13 +40,11 @@ def generate_html(quiz_data):
     weekday_map = {0: "월요일", 1: "화요일", 2: "수요일", 3: "목요일", 4: "금요일", 5: "토요일", 6: "일요일"}
     weekday_kor = weekday_map.get(dt.weekday(), "오늘의")
 
-    # 정답 로직
     is_correct_o = (quiz_data['answer'] == "1")
     main_symbol = "O" if is_correct_o else "X"
     main_color = "#4A90E2" if is_correct_o else "#E94E58"
     sub_text = "그렇다" if is_correct_o else "아니다"
 
-    # [상식 노출] 랜덤 3개 추출
     selected_info = random.sample(ENV_KNOWLEDGE_BASE, 3)
     info_html = ""
     for info in selected_info:
@@ -57,13 +55,13 @@ def generate_html(quiz_data):
         </div>
         """
 
-    # [히스토리] 최근 7일 링크 생성
     history_links = ""
     if os.path.exists("history"):
+        # 메인 index.html용 상대 경로 링크 (./history/ 파일명)
         files = sorted([f for f in os.listdir("history") if f.endswith(".html")], reverse=True)[:7]
         for f in files:
             date_str = f.replace(".html", "")
-            history_links += f'<li><a href="/history/{f}">{date_str} 퀴즈 정답 보기</a></li>'
+            history_links += f'<li><a href="./history/{f}">{date_str} 퀴즈 정답 보기</a></li>'
 
     html = f"""
     <!DOCTYPE html>
@@ -85,8 +83,6 @@ def generate_html(quiz_data):
             .question-box {{ background-color: #F9FAFB; padding: 20px; border-radius: 15px; margin-bottom: 30px; text-align: left; }}
             .q-label {{ color: #4A90E2; font-weight: 900; font-size: 1.2rem; margin-right: 5px; }}
             .question-text {{ font-size: 1.3rem; line-height: 1.6; color: #333; font-weight: 600; word-break: keep-all; }}
-            
-            /* 추가 구성 요소 스타일 */
             .ad-section {{ margin: 20px 0; width: 100%; min-height: 100px; background: #fafafa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem; }}
             .info-section {{ text-align: left; margin-top: 30px; padding-top: 20px; border-top: 2px solid #eee; }}
             .info-item {{ margin-bottom: 20px; }}
@@ -98,12 +94,10 @@ def generate_html(quiz_data):
             .history-section li {{ margin-bottom: 5px; font-size: 0.9rem; }}
             .history-section a {{ color: #4A90E2; text-decoration: none; }}
             .footer {{ margin-top: 40px; font-size: 0.8rem; color: #ADB5BD; text-align: center; width: 100%; max-width: 500px; }}
-            .policy-text {{ display: none; background: #f1f1f1; padding: 15px; border-radius: 10px; margin-top: 10px; text-align: left; line-height: 1.4; }}
         </style>
     </head>
     <body>
         <div class="container">
-            <!-- [유지] 기존 상단 영역 -->
             <div class="date">{today_date}</div>
             <div class="title">{weekday_kor} 퀴즈 정답</div>
 
@@ -117,13 +111,12 @@ def generate_html(quiz_data):
                 <span class="question-text">{quiz_data['question']}</span>
             </div>
 
-            <!-- [추가] 광고 노출 영역 -->
             <div class="ad-section">
-                <!-- 애드센스 자동 광고가 이 근처에 배치됩니다 -->
-                ADVERTISEMENT
+                <!-- ADVERTISEMENT -->
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8376160575017122" data-ad-slot="YOUR_SLOT_ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
             </div>
 
-            <!-- [추가] 상세 해설 및 랜덤 지식 상식 -->
             <div class="info-section">
                 <div class="info-item">
                     <h4>💡 정답 해설</h4>
@@ -134,23 +127,18 @@ def generate_html(quiz_data):
                 {info_html}
             </div>
 
-            <!-- [추가] 최근 7일 히스토리 -->
             <div class="history-section">
                 <h4>📅 지난 퀴즈 보기 (최근 7일)</h4>
                 <ul>{history_links if history_links else "<li>이전 기록을 쌓는 중입니다.</li>"}</ul>
             </div>
         </div>
 
-        <!-- [추가] 필수 정책 및 격식 푸터 -->
         <div class="footer">
             <p>© 2026 Daily Wisdom. All rights reserved.</p>
             <p>
-                <a href="#" onclick="document.getElementById('policy').style.display='block'; return false;" style="color:#ADB5BD;">개인정보처리방침</a> | 
+                <a href="/privacy.html" style="color:#ADB5BD; text-decoration: underline;">개인정보처리방침</a> | 
                 <a href="mailto:admin@dailywisdom.kr" style="color:#ADB5BD;">문의하기</a>
             </p>
-            <div id="policy" class="policy-text">
-                <strong>개인정보처리방침:</strong> 본 사이트는 사용자의 어떠한 개인정보도 직접 수집하거나 저장하지 않습니다. 다만, 구글 애드센스 광고 서빙을 위해 구글이 쿠키를 사용할 수 있으며, 이에 대한 통제권은 구글에 있습니다.
-            </div>
         </div>
     </body>
     </html>
@@ -161,8 +149,6 @@ if __name__ == "__main__":
     data = fetch_quiz()
     if data:
         html_content = generate_html(data)
-        
-        # history 폴더 생성 및 저장
         if not os.path.exists("history"):
             os.makedirs("history")
         
@@ -170,7 +156,6 @@ if __name__ == "__main__":
         with open(date_filename, "w", encoding="utf-8") as f:
             f.write(html_content)
             
-        # 메인 index.html 저장
         with open("index.html", "w", encoding="utf-8") as f:
             f.write(html_content)
         print("Update Success")
